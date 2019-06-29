@@ -1,63 +1,81 @@
 package com.gfg.consumeRest.fetchApi.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "status",
+        "result"
+})
+
 public class User {
 
+    @JsonProperty("status")
+    private String status;
+    @JsonProperty("result")
+    private List<Result> result = null;
+    @JsonIgnore
+    public Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-
-    String firstname;
-    String lastname;
-    int rating;
-    int maxrating;
-
-    public User(String firstname, String lastname, int rating, int maxrating) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.rating = rating;
-        this.maxrating = maxrating;
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public User() {
     }
 
-    public String getFirstname() {
-        return firstname;
+    /**
+     *
+     * @param result
+     * @param status
+     */
+    public User(String status, List<Result> result) {
+        super();
+        this.status = status;
+        this.result = result;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    @JsonProperty("status")
+    public String getStatus() {
+        return status;
     }
 
-    public String getLastname() {
-        return lastname;
+    @JsonProperty("status")
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    @JsonProperty("result")
+    public List<Result> getResult() {
+        return result;
     }
 
-    public int getRating() {
-        return rating;
+    @JsonProperty("result")
+    public void setResult(List<Result> result) {
+        this.result = result;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
     }
 
-    public int getMaxrating() {
-        return maxrating;
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
-    public void setMaxrating(int maxrating) {
-        this.maxrating = maxrating;
-    }
+//    @Override
+//    public String toString() {
+//        return new ToStringBuilder(this).append("status", status).append("result", result).append("additionalProperties", additionalProperties).toString();
+//    }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", rating=" + rating +
-                ", maxrating=" + maxrating +
-                '}';
-    }
 }
